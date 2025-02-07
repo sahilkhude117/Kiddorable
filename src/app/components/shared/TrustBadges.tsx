@@ -2,7 +2,10 @@ import { ShieldCheck, HeartHandshake, Rocket } from 'lucide-react'
 
 export function TrustBadges() {
   return (
-    <section className="py-12 px-4 bg-[#F8F9FA]">
+    <section className="pt-20 pb-20 px-4 bg-[#F8F9FA]">
+      <h2 className="text-2xl font-bold text-[#2A5C8F] mb-8 text-center">
+          Why us?
+      </h2>
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 justify-center">
         {/* Security */}
         <div className="flex flex-col items-center text-center gap-3">
