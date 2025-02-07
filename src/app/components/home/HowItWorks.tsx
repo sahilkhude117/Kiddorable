@@ -18,7 +18,7 @@ export function HowItWorks() {
     ]
   
     return (
-      <section className="px-4 mt-12">
+      <section className="px-4 mt-12 mb-12">
         <h2 className="text-2xl font-bold text-[#2A5C8F] mb-8 text-center">
           How It Works
         </h2>
