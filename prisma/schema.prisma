@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -11,4 +6,65 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  password       String
+  name           String?
+  purchases      Purchase[]
+  createdAt      DateTime  @default(now())
+  updateAt       DateTime  @updatedAt
+}
+
+model Product {
+  id             String    @id @default(cuid())
+  slug           String    @unique
+  title          String
+  description    String    @db.Text
+  thumbnailImage String    // url to image
+  previewPages   String[]  // array of preview image url
+  originalPrice  Float
+  driveLink      String?
+  discountedPrice Float
+  downloadCount  Int       @default(0)
+  rating         Int       @default(0)
+  purchases      Purchase[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([downloadCount])
+}
+
+model Purchase {
+  id             String    @id @default(cuid())
+  userId         String
+  productId      String
+  orderId        String    @unique //razorpay order id
+  status         Status    @default(PENDING)
+  user           User      @relation(fields: [userId], references: [id])
+  product        Product   @relation(fields: [productId], references: [id])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  purchasedAt    DateTime  @default(now())
+
+  @@index([userId])
+  @@index([productId])
+  @@index([status])
+}
+
+model Testimonial {
+  id          String    @id @default(cuid())
+  name        String
+  profession  String
+  content     String    @db.Text
+  createdAt   DateTime  @default(now())
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
