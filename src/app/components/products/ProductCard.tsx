@@ -4,7 +4,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 export const ProductCard = ({
   title,
@@ -20,14 +19,15 @@ export const ProductCard = ({
   discountedPrice: number;
 }) => {
   const hasDiscount = originalPrice > discountedPrice
+  const discountPecentage = Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
   
   return (
     <motion.div
-      className="group relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow w-[60vw] flex-shrink-0 sm:w-[60vw] md:w-[45vw] lg:w-[35vw]"
+      className="group relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow w-[60vw] flex-shrink-0 sm:w-[60vw] md:w-[35vw] lg:w-[25vw]"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      <Link href={`/product/${slug}`} className="block">
+      <Link href={`/products/${slug}`} className="block">
         {/* Image Section */}
         <div className="relative">
           <img
@@ -35,8 +35,8 @@ export const ProductCard = ({
             alt={title}
             className="object-cover w-full h-full rounded-t-xl transition-transform duration-300 group-hover:scale-105"
           />
-          <Badge className="absolute top-2 left-2 bg-[#FFD700] text-[#2A5C8F] hover:bg-[#FFD700]/90">
-            {originalPrice}% Off
+          <Badge className="absolute top-2 left-2 bg-[#FF6B6B]/10 text-[#FF6B6B] hover:bg-[#FF6B6B]/20 text-xs">
+            {discountPecentage}% Off
           </Badge>
         </div>
 
@@ -48,31 +48,26 @@ export const ProductCard = ({
           
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-baseline gap-2">
-              <span className="text-lg font-bold text-[#FF6B6B]">
-                ${discountedPrice}
+              <span className="text-xl font-bold text-[#FF6B6B]">
+              ₹{discountedPrice}
               </span>
-              {hasDiscount && (
                 <>
                   <span className="text-sm line-through text-gray-400">
-                    ${originalPrice}
+                  ₹{originalPrice}
                   </span>
-                  <Badge className="bg-[#FF6B6B]/10 text-[#FF6B6B] hover:bg-[#FF6B6B]/20 text-xs">
-                    {discountedPrice}% OFF
-                  </Badge>
                 </>
-              )}
             </div>
           </div>
         </div>
       </Link>
 
       {/* Full Width Buy Button */}
-      <div className="px-3 pb-3">
-        <Button
-          className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFB700] hover:from-[#FFB700] hover:to-[#FF9500] text-[#2A5C8F] font-bold py-3 text-sm"
-        >
-          BUY NOW
-        </Button>
+      <div className='px-3 pb-3 '>
+        <Link href={`/products/${slug}`}>
+          <button className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFB700] hover:from-[#FFB700] hover:to-[#FF9500] text-[#2A5C8F] font-bold py-3 text-sm rounded-md">
+            Buy Now
+          </button>
+        </Link>
       </div>
     </motion.div>
   )
