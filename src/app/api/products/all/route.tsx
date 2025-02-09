@@ -16,10 +16,6 @@ export const GET = async() => {
 
         return NextResponse.json({
             allProducts
-        },{
-            headers: {
-                'Cache-Control': 'public, s-maxage=216000, stale-while-revalidate=59'
-            },
         })
     } catch(e) {
         console.error(e);
