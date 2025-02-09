@@ -25,28 +25,22 @@ interface Testimonial {
 
 export default async function Home() {
   try {
-    // Fetch total users with ISR
-    const totalUsersResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats/total-users`, {
-      next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
-    });
-    const {totalUsers} = await totalUsersResponse.json();
-
-    // Fetch popular products with ISR
-    const popularProductsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/popular`, {
-      next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
-    });
-    const {popularProducts} = await popularProductsResponse.json();
-
     // Fetch recent testimonials with ISR
     const testimonialsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/testimonials`, {
       next: { revalidate: 60 * 30 }, // Revalidate every 30 minutes
     });
     const {testimonials} = await testimonialsResponse.json();
 
+          // Fetch total users with ISR
+    const totalUsersResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats/total-users`, {
+      next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
+    });
+    const {totalUsers} = await totalUsersResponse.json();
+
     return (
       <main className="relative min-h-screen">
         {/* Hero Section */}
-        <HeroSection totalUsers={totalUsers} />
+        <HeroSection totalUsers={totalUsers}/>
 
         {/* Popular Products Section */}
         <section className="px-4 mt-8">
@@ -63,7 +57,7 @@ export default async function Home() {
               </Link>
             </Button>
           </div>
-          <Popular products={popularProducts} />
+          <Popular/>
         </section>
 
         {/* Testimonials Section */}
@@ -75,6 +69,7 @@ export default async function Home() {
 
         {/* How It Works Section */}
         <HowItWorks />
+        
       </main>
     );
   } catch (error) {
