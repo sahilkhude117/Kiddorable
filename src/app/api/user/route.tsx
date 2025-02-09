@@ -8,15 +8,17 @@ export const GET = async () => {
         const session = await getServerSession(NEXT_AUTH_CONFIG);
         const user = session?.user;
 
-        const userInfo = await prisma.user.findUnique({
+        const userInfo = await prisma.user.findFirst({
             where:{
                 email: user?.email
             },
             select:{
+                id: true,
                 name: true,
                 email: true,
                 createdAt: true,
                 purchases:{
+                    where: {status: 'COMPLETED'},
                     select:{
                         id: true,
                         product:{
