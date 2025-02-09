@@ -1,10 +1,7 @@
 // components/worksheets/popular-section.tsx
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { ProductCard } from '../products/ProductCard';
+
 
 interface Product {
   id: string;
@@ -15,18 +12,22 @@ interface Product {
   discountedPrice: number;
 }
 
-interface Props {
-  products: Product[];
-}
 
-export default function Popular({ products }: Props) {
+export default async function Popular() {
+
+      // Fetch popular products with ISR
+  const popularProductsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/popular`, {
+    next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
+  });
+  const {popularProducts} = await popularProductsResponse.json();
+
   return (
     <section aria-labelledby="popular-section">
       {/* Scrollable Product List */}
       <ScrollArea className="w-full pb-4">
         <div className="flex gap-4 pb-4 px-4">
-          {products.length > 0 ? (
-            products.map((product) => (
+          {popularProducts.length > 0 ? (
+            popularProducts.map((product: Product) => (
               <ProductCard
                 key={product.id}
                 title={product.title}
