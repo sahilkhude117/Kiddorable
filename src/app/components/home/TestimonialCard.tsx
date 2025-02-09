@@ -48,9 +48,9 @@ export default function TestimonialCard({ testimonials }: TestimonialCardProps) 
           ref={wrapperRef}
           className="flex gap-6 w-max"
           animate={{ x: [-scrollWidth, 0] }}
-          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+          whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
           transition={{
-            duration: 20,
+            duration: 30,
             repeat: Infinity,
             ease: 'linear',
           }}
@@ -67,7 +67,6 @@ export default function TestimonialCard({ testimonials }: TestimonialCardProps) 
                     <Card className="h-full p-6 bg-[#F8F9FA] border-[#2A5C8F]/20">
                       <div className="flex items-start gap-4 mb-4">
                     <Avatar className="w-12 h-12 border-2 border-[#FFD700]">
-                      <AvatarImage src={testimonial.name || ''} alt={testimonial.name} />
                       <AvatarFallback className="bg-[#FFD700] text-[#2A5C8F]">
                         {testimonial.name.charAt(0).toUpperCase()}
                       </AvatarFallback>
