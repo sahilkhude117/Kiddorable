@@ -1,14 +1,68 @@
 // app/(auth)/login/page.tsx
-'use client'
+'use client';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Apple, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Apple, ArrowRight } from 'lucide-react'
-import { TrustBadges } from '@/app/components/shared/TrustBadges'
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [hidePass, setHidePass] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const toggleVisibility = () => {
+    setHidePass(!hidePass);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true); // Start loading
+    setError('');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!emailRegex.test(email)) {
+      setError('Invalid email address');
+      setLoading(false);
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      setError(
+        'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+      );
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result?.error) {
+        setError('Invalid email or password');
+      } else {
+        router.push('/');
+      }
+    } catch (e) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
   return (
     <div className="min-h-screen pb-24">
       <div className="max-w-md mx-auto px-4 py-12">
@@ -28,20 +82,30 @@ export default function LoginPage() {
 
           {/* Form Card */}
           <Card className="p-6 shadow-sm">
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
+                {/* Email Field */}
                 <div>
                   <label className="text-sm font-medium text-[#2A5C8F]">
                     Email Address
                   </label>
                   <Input
+                    id="email"
                     type="email"
                     className="mt-1 focus-visible:ring-[#34C759]"
+                    autoComplete="email"
                     placeholder="your@email.com"
+                    required
+                    value={email}
+                    onChange={(e) => {
+                      setError('');
+                      setEmail(e.target.value)
+                    }}
                   />
                 </div>
 
-                <div>
+                {/* Password Field */}
+                <div className="relative">
                   <div className="flex justify-between items-center">
                     <label className="text-sm font-medium text-[#2A5C8F]">
                       Password
@@ -54,22 +118,74 @@ export default function LoginPage() {
                     </Link>
                   </div>
                   <Input
-                    type="password"
-                    className="mt-1 focus-visible:ring-[#34C759]"
-                    placeholder="••••••••"
+                    id="password"
+                    name="password"
+                    type={hidePass ? 'password' : 'text'}
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    className="mt-1 focus-visible:ring-[#34C759] pr-10"
+                    placeholder="••••••••••••••••"
+                    onChange={(e) => {
+                      setError('')
+                      setPassword(e.target.value)
+                    }}
                   />
+                  <div
+                    onClick={toggleVisibility}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                  >
+                    {hidePass ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </div>
                 </div>
               </div>
 
+              {/* Error Message */}
+              {error && (
+                <div className="text-red-500 text-sm text-center">{error}</div>
+              )}
+
+              {/* Submit Button */}
               <Button
-                className="w-full bg-gradient-to-r from-[#34C759] to-[#2EB34D] hover:from-[#2EB34D] hover:to-[#28A745] text-white py-5"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFB700] hover:from-[#FFB700] hover:to-[#FF9500] text-[#2A5C8F] py-5 font-bold"
                 size="lg"
               >
-                Sign In
-                <ArrowRight className="ml-2 h-4 w-4" />
+                {loading ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Logging in...
+                  </span>
+                ) : (
+                  <div className="flex justify-center">
+                    Create Account
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </div>
+                )}
               </Button>
             </form>
 
+            {/* Divider */}
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#2A5C8F]/20"></div>
@@ -81,6 +197,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Social Login Buttons */}
             <div className="flex gap-4">
               <Button
                 variant="outline"
@@ -99,19 +216,18 @@ export default function LoginPage() {
             </div>
           </Card>
 
+          {/* Footer */}
           <p className="mt-8 text-center text-[#6B7280]">
             Don't have an account?{' '}
             <Link
-              href="/signup"
+              href="/auth/signin"
               className="text-[#34C759] font-medium hover:underline"
             >
               Create account
             </Link>
           </p>
         </motion.div>
-
-        <TrustBadges />
       </div>
     </div>
-  )
+  );
 }
