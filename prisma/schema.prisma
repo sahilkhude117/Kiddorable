@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,7 +14,7 @@ model User {
   name           String?
   purchases      Purchase[]
   createdAt      DateTime  @default(now())
-  updateAt       DateTime  @updatedAt
+  updatedAt      DateTime  @updatedAt
 }
 
 model Product {
@@ -23,31 +22,33 @@ model Product {
   slug           String    @unique
   title          String
   description    String    @db.Text
-  thumbnailImage String    // url to image
-  previewPages   String[]  // array of preview image url
+  thumbnailImage String    // URL to image
+  previewPages   String[]  // Array of preview image URLs
   originalPrice  Float
-  driveLink      String?
+  driveLink      String?   // Link to downloadable file (e.g., Google Drive)
   discountedPrice Float
   downloadCount  Int       @default(0)
   rating         Int       @default(0)
   purchases      Purchase[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-
+  
   @@index([downloadCount])
 }
 
 model Purchase {
   id             String    @id @default(cuid())
-  userId         String
+  userId         String?   // Nullable for unauthenticated users
   productId      String
-  orderId        String    @unique //razorpay order id
+  orderId        String    @unique // Razorpay order ID
+  paymentId      String?   // Razorpay payment ID (optional until payment is verified)
   status         Status    @default(PENDING)
-  user           User      @relation(fields: [userId], references: [id])
+  email          String    // Email of the user (required for unauthenticated users)
+  name           String    // Name of the user (required for unauthenticated users)
+  user           User?     @relation(fields: [userId], references: [id])
   product        Product   @relation(fields: [productId], references: [id])
   createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  purchasedAt    DateTime  @default(now())
+  purchasedAt    DateTime? // Timestamp when the purchase was completed
 
   @@index([userId])
   @@index([productId])
