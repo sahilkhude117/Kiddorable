@@ -248,8 +248,8 @@ export const PurchaseCard = ({
 
   if (status === 'unauthenticated') {
     return (
-      <div className="mt-4 fixed bottom-0 left-0 right-0">
-        <Card>
+      <div className="mt-4 fixed bottom-0 left-0 right-0 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Card className='max-w-2xl mx-auto'>
           <CardHeader className="pl-6 pb-2 pt-2">
             <div className="flex justify-between items-center">
               <div className="space-y-1">
@@ -261,7 +261,7 @@ export const PurchaseCard = ({
           <CardContent className="space-y-0">
             
             <Dialog>
-            <DialogTrigger className='w-full'>
+            <DialogTrigger asChild className='w-full'>
                 <Button
                     className="w-full py-6 text-lg font-semibold"
                     disabled={loading}
@@ -375,8 +375,8 @@ export const PurchaseCard = ({
   }
 
   return (
-    <div className="mt-4 fixed bottom-0 left-0 right-0">
-      <Card>
+    <div className="mt-4 fixed bottom-0 left-0 right-0 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Card className='max-w-2xl mx-auto'>
         <CardHeader className="pl-6 pb-2 pt-2">
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
