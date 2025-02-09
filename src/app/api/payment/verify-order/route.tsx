@@ -1,59 +1,70 @@
-
-import prisma from '@/lib/db';
-import crypto from 'crypto';
 import { NextResponse } from 'next/server';
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
+import prisma from '@/lib/db';
 
-export async function POST(req: Request) {
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID!,
+  key_secret: process.env.RAZORPAY_KEY_SECRET!,
+});
+
+export const POST = async (req: Request) => {
+  try {
     const body = await req.json();
-    const { 
-        razorpay_order_id, 
-        razorpay_payment_id, 
-        razorpay_signature,
-        userId,
-        productId,
-    } = body;
+    const { razorpayOrderId, razorpayPaymentId, razorpaySignature } = body;
 
-    const secret = process.env.RAZORPAY_SECRET_KEY || "default";
-    const sign = razorpay_order_id + "|" + razorpay_payment_id;
-
-    const expectedSignature = crypto
-        .createHmac('sha256', secret)
-        .update(sign)
-        .digest('hex');
-
-    if (razorpay_signature === expectedSignature) {
-        //payment success, create purchase
-        const purchase = await prisma.purchase.create({
-            data: {
-                userId: userId,
-                productId: productId,
-                orderId: razorpay_payment_id,
-                status: "COMPLETED"
-            }
-        });
-
-        return NextResponse.json({ 
-            success: true,
-            message: 'Payment verified'
-        }, { 
-            status: 200 
-        });
-    } else {
-        //payment failed, return error
-
-        await prisma.purchase.create({
-            data: {
-                userId: userId,
-                productId: productId,
-                orderId: razorpay_payment_id,
-                status: "FAILED"
-            }
-        })
-        return NextResponse.json({ 
-            success: false,
-            message: 'Payment verification failed'
-        }, { 
-            status: 400 
-        });
+    // Validate input
+    if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+      return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
     }
-}
+
+    // Generate expected signature
+    const secret = process.env.RAZORPAY_KEY_SECRET!;
+    const sign = `${razorpayOrderId}|${razorpayPaymentId}`;
+    const expectedSignature = crypto.createHmac('sha256', secret).update(sign).digest('hex');
+
+    // Verify signature
+    if (razorpaySignature === expectedSignature) {
+      try {
+        // Update database
+        await prisma.purchase.update({
+          where: { orderId: razorpayOrderId },
+          data: {
+            status: 'COMPLETED',
+            paymentId: razorpayPaymentId,
+            purchasedAt: new Date(),
+          },
+        });
+
+        return NextResponse.json(
+          { success: true, message: 'Payment verified' },
+          { status: 200 }
+        );
+      } catch (dbError) {
+        console.error('Database update failed:', dbError);
+        return NextResponse.json(
+          { error: 'Failed to update purchase record' },
+          { status: 500 }
+        );
+      }
+    } else {
+      // Update database for failed payment
+      await prisma.purchase.update({
+        where: { orderId: razorpayOrderId },
+        data: {
+          status: 'FAILED',
+          paymentId: razorpayPaymentId,
+          purchasedAt: new Date(),
+        },
+      });
+
+      return NextResponse.json(
+        { success: false, message: 'Payment verification failed' },
+        { status: 400 }
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to verify order' }, { status: 500 });
+  }
+};
