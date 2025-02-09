@@ -13,7 +13,8 @@ export const GET = async () => {
             where:{
                 user: {
                     email: user?.email
-                }
+                },
+                status: 'COMPLETED'
             },
             select:{
                 purchasedAt: true,
