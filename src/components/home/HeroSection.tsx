@@ -37,7 +37,7 @@ export default async function HeroSection({totalUsers}:{totalUsers:string}) {
           className="flex items-center justify-center gap-4 opacity-0 animate-fade-in-up delay-600"
         >
           <p className="text-sm text-gray-500">
-            Trusted by <span className="font-semibold text-[#34C759]">{totalUsers}+</span> parents worldwide
+            Trusted by <span className="font-semibold text-[#34C759]">{totalUsers <= `5432` ? `5432` : totalUsers}+</span> parents worldwide
           </p>
         </div>
       </div>
