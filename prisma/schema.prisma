@@ -13,8 +13,17 @@ model User {
   password       String
   name           String?
   purchases      Purchase[]
+  resetTokens    ResetToken[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+}
+
+model ResetToken {
+  id             Int       @id @default(autoincrement())
+  token          String    @unique
+  userId         String
+  user           User      @relation(fields: [userId], references: [id])
+  expiresAt      DateTime
 }
 
 model Product {
