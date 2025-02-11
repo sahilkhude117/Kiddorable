@@ -128,6 +128,7 @@ export default function LoginPage() {
                       setPassword(e.target.value)
                     }}
                   />
+                  </div>
                   <div
                     onClick={toggleVisibility}
                     className="absolute inset-y-0 right-0 top-5 flex items-center pr-3 cursor-pointer"
@@ -136,7 +137,6 @@ export default function LoginPage() {
                   </div>
                   </div>
                 </div>
-              </div>
 
               {/* Error Message */}
               {error && (
