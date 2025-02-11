@@ -9,6 +9,7 @@ import { Apple, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import ForgotPassword from '@/components/shared/ForgotPassword';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -110,13 +111,9 @@ export default function LoginPage() {
                     <label className="text-sm font-medium text-[#2A5C8F]">
                       Password
                     </label>
-                    <Link
-                      href="/forgot-password"
-                      className="text-sm text-[#34C759] hover:underline"
-                    >
-                      Forgot password?
-                    </Link>
+                    <ForgotPassword/>
                   </div>
+                  <div>
                   <Input
                     id="password"
                     name="password"
@@ -133,9 +130,10 @@ export default function LoginPage() {
                   />
                   <div
                     onClick={toggleVisibility}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    className="absolute inset-y-0 right-0 top-5 flex items-center pr-3 cursor-pointer"
                   >
                     {hidePass ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </div>
                   </div>
                 </div>
               </div>
@@ -186,7 +184,7 @@ export default function LoginPage() {
             </form>
 
             {/* Divider */}
-            <div className="relative my-8">
+            {/* <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#2A5C8F]/20"></div>
               </div>
@@ -195,10 +193,10 @@ export default function LoginPage() {
                   Or continue with
                 </span>
               </div>
-            </div>
+            </div> */}
 
             {/* Social Login Buttons */}
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <Button
                 variant="outline"
                 className="w-full border-[#2A5C8F]/20 text-[#2A5C8F] hover:bg-[#F8F9FA]"
@@ -213,7 +211,7 @@ export default function LoginPage() {
                 <Apple className="w-5 h-5 mr-2" />
                 Apple
               </Button>
-            </div>
+            </div> */}
           </Card>
 
           {/* Footer */}
