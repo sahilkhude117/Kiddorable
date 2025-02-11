@@ -19,7 +19,7 @@ interface ProductListProps {
 
 export const ProductList = ({ products }: ProductListProps) => {
   return (
-    <div className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+    <div className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 ">
       <div className="gap-6">
         {products.map((product) => (
           <ProductCard
