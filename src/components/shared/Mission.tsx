@@ -19,9 +19,9 @@ export const Mission = () => {
                 into <span className="text-[#34C759] font-medium">productive learning moments</span>, 
                 helping children aged 6-14 develop essential skills through play.
               </p>
-              <Link href={'/about#us'} className="bg-[#FFD700] hover:bg-[#FFB700] text-[#2A5C8F] px-1 py-2 rounded-md text-xs font-bold mt-2">
+              {/* <Link href={'/about#us'} className="bg-[#FFD700] hover:bg-[#FFB700] text-[#2A5C8F] px-1 py-2 rounded-md text-xs font-bold mt-2">
                 Meet Our Team
-              </Link>
+              </Link> */}
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
