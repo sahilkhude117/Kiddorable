@@ -268,12 +268,17 @@ export const PurchaseCard = ({
       <div className="mt-4 fixed bottom-0 left-0 right-0 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <Card className='max-w-2xl mx-auto'>
           <CardHeader className="pl-6 pb-2 pt-2">
-            <div className="flex justify-between items-center">
-              <div className="space-y-1">
-                <div className="text-xs">Amount Total</div>
-                <div className="text-xl font-bold">₹{price}</div>
-              </div>
-            </div>
+                <div className="flex justify-between items-center">
+                  <div className="space-y-1">
+                    <div className="text-3xl font-bold">₹{price}</div>
+                    <div className='flex justify-center '>
+                      <div className="text-sm text-gray-500 line-through mr-2">₹{originalPrice}</div>
+                      <Badge className="bg-green-100 text-green-800">
+                          {discountPercentage}% OFF
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
           </CardHeader>
           <CardContent className="space-y-0">
             
@@ -404,7 +409,6 @@ export const PurchaseCard = ({
                     {discountPercentage}% OFF
                     </Badge>
                   </div>
-                  
                 </div>
               </div>
         </CardHeader>
