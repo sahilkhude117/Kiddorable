@@ -16,7 +16,7 @@ export default async function Popular() {
 
       // Fetch popular products with ISR
   const popularProductsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/popular`, {
-    next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
+    next: { revalidate: 60 * 60 * 24 }, // Revalidate every 10 minutes
   });
   const {popularProducts} = await popularProductsResponse.json();
 
