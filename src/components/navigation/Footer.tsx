@@ -20,7 +20,7 @@ export function Footer() {
             <h4 className="text-[#34C759] font-semibold mb-2">Explore</h4>
             <ul className="space-y-2">
               <FooterLink href="/products" label="All Products" />
-              <FooterLink href="/blog" label="Learning Resources" />
+              <FooterLink href="/products" label="Learning Resources" />
               <FooterLink href="/about" label="About Us" />
             </ul>
           </div>
@@ -31,7 +31,7 @@ export function Footer() {
             <ul className="space-y-2">
               <FooterLink href="/privacy" label="Privacy Policy" />
               <FooterLink href="/terms" label="Terms of Service" />
-              <FooterLink href="/refunds" label="Refund Policy" />
+              <FooterLink href="/refund" label="Refund Policy" />
             </ul>
           </div>
 
