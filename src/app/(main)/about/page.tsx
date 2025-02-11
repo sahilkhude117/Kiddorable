@@ -1,9 +1,6 @@
 
-import { Rocket, Users, BookOpen, Leaf, Award, Smile } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { CTAButton } from '@/app/components/home/CTAButton'
-import { Mission } from '@/app/components/shared/Mission'
-import { CTASection } from '@/app/components/shared/CTASection'
+import { Mission } from '@/components/shared/Mission'
+import { CTASection } from '@/components/shared/CTASection'
 
 export default function AboutPage() {
   return (
@@ -12,7 +9,7 @@ export default function AboutPage() {
       <Mission/>
 
       {/* Timeline Section */}
-      <section className="px-4 py-16 bg-[#F8F9FA]">
+      <div className="px-4 py-16 bg-[#F8F9FA]">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-[#2A5C8F] mb-12 text-center">
             Our Journey
@@ -43,10 +40,10 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Team Section */}
-      <section id='us' className="px-4 py-16">
+      <div id='us' className="px-4 py-16">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-[#2A5C8F] mb-12 text-center">
             Meet the Minds
@@ -77,7 +74,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* CTA Section */}
       <CTASection/>

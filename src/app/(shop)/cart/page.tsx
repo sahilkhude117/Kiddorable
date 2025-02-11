@@ -4,6 +4,9 @@ import { Download, Clock, Star, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
 import axios from 'axios';
+import { useState } from 'react';
+import { PulseLoader } from 'react-spinners';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -24,6 +27,9 @@ interface MyProductsResponse {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function PurchasesPage() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  
   const { data, error, isLoading } = useSWR<MyProductsResponse>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/products/my`,
     fetcher
@@ -54,6 +60,23 @@ export default function PurchasesPage() {
       </div>
     );
   }
+
+  const handleDownload = () => {
+    setLoading(true);
+    
+    try {
+      const link = document.createElement('a');
+      link.href = `${process.env.NEXT_PUBLIC_API_URL}/files/test.pdf`;
+      link.setAttribute('download', `test.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch(e) {
+      alert('error occured downloading file')
+    } finally {
+      setLoading(false);
+    }
+   }
 
   return (
     <div className="pb-24">
@@ -109,16 +132,20 @@ export default function PurchasesPage() {
                       </div>
                       <div className="flex gap-3 mt-4 lg:mt-6">
                         <Button
+                          onClick={handleDownload}
+                          disabled={loading}
                           className="bg-[#34C759] hover:bg-[#2EB34D] text-white flex-1 lg:py-5 lg:text-base"
                           size="sm"
                         >
                           <Download className="w-4 h-4 mr-2 lg:w-5 lg:h-5" />
-                          Download
+                          {loading ? <PulseLoader color="#fff" size={12} /> : 'Download'}
                         </Button>
+                       
                         <Button
                           variant="outline"
                           className="border-[#2A5C8F] text-[#2A5C8F] lg:py-5 lg:text-base"
                           size="sm"
+                          onClick={() => router.push('https://drive.google.com/drive/folders/1d_QHhuuw0KNVuFHl9vVeGSY0XdEzhFLP')}
                         >
                           View Online
                         </Button>

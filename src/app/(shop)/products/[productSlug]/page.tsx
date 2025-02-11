@@ -2,11 +2,13 @@
 import Link from 'next/link';
 import { ArrowLeft, Download, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Popular from '@/app/components/home/Popular';
-import { TrustBadges } from '@/app/components/shared/TrustBadges';
-import { PurchaseCard } from '@/app/components/products/PurchaseCard';
+import Popular from '@/components/home/Popular';
+import { TrustBadges } from '@/components/shared/TrustBadges';
+import { PurchaseCard } from '@/components/products/PurchaseCard';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Metadata } from 'next';
+import products from 'razorpay/dist/types/products';
 
 interface Product {
   id: string;
@@ -21,9 +23,14 @@ interface Product {
   downloadCount: number;
 }
 
-export default async function ProductPage({ params }: { params: { productSlug: string } }) {
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ productSlug: string }>;
+}) {
   try {
-    const { productSlug } = await params;
+    const {productSlug} =  await params;
 
     // Fetch product details with ISR
     const productResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${productSlug}`, {
@@ -143,9 +150,55 @@ export default async function ProductPage({ params }: { params: { productSlug: s
 }
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/all`);
-  const products = await response.json();
-  return products.allProducts.map((product: Product) => ({
-    productSlug: product.slug,
-  }));
+  if (!process.env.NEXT_PUBLIC_API_URL) {
+    console.warn('NEXT_PUBLIC_API_URL is not defined');
+    return [];
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/all`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`API responded with status: ${response.status}`);
+      return [];
+    }
+
+    const { allProducts }: { allProducts: { slug: string }[] } = await response.json();
+    
+    if (!Array.isArray(allProducts)) {
+      console.error('API response is not in expected format');
+      return [];
+    }
+
+    return allProducts.map((product) => ({
+      productSlug: product.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return []; // Return empty array instead of failing build
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ productSlug: string }>;
+}): Promise<Metadata> {
+  const { productSlug } = await params;
+
+  const productResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/product/${productSlug}`
+  );
+  const { product }: { product: { title: string; description: string } } =
+    await productResponse.json();
+
+  return {
+    title: product?.title || 'Product Not Found',
+    description: product?.description || 'No description available.',
+  };
 }

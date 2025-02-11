@@ -1,15 +1,14 @@
 // src/app/page.tsx
 
-import { CTAButton } from '../components/home/CTAButton';
-import  HeroSection  from '../components/home/HeroSection';
-import { HowItWorks } from '../components/home/HowItWorks';
-import Popular from '../components/home/Popular';
-import TestimonialCard from '../components/home/TestimonialCard';
+import  HeroSection  from '../../components/home/HeroSection';
+import { HowItWorks } from '../../components/home/HowItWorks';
+import Popular from '../../components/home/Popular';
+import TestimonialCard from '../../components/home/TestimonialCard';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Leaf, Rocket, Smile, Users } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { Mission } from '../components/shared/Mission';
-import { CTASection } from '../components/shared/CTASection';
+import { Mission } from '../../components/shared/Mission';
+import { CTASection } from '../../components/shared/CTASection';
 
 interface Product {
   id: string;
@@ -41,7 +40,7 @@ export default async function Home() {
     const {totalUsers} = await totalUsersResponse.json();
 
     return (
-      <main className="relative min-h-screen">
+      <div className="relative min-h-screen">
         {/* Hero Section */}
         <HeroSection totalUsers={totalUsers}/>
 
@@ -75,7 +74,7 @@ export default async function Home() {
         <Mission/>
         <CTASection/>
         
-      </main>
+      </div>
     );
   } catch (error) {
     console.error('Error fetching data:', error);

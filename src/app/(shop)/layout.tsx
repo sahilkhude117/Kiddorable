@@ -1,6 +1,6 @@
 import React from "react";
-import { Footer } from "../components/navigation/Footer";
-import { Navbar } from "../components/navigation/Navbar";
+import { Footer } from "../../components/navigation/Footer";
+import { Navbar } from "../../components/navigation/Navbar";
 
 export default function ShopLayout({
   children,
@@ -8,7 +8,7 @@ export default function ShopLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="home-layout">
+    <div className="shop-layout">
       <Navbar/>
       {children}
     </div>

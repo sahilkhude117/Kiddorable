@@ -1,7 +1,7 @@
 // src/app/products/page.tsx
-import Popular from '../../components/home/Popular';
-import { TrustBadges } from '@/app/components/shared/TrustBadges';
-import { ProductGrid } from '@/app/components/products/ProductGrid';
+import Popular from '../../../components/home/Popular';
+import { TrustBadges } from '@/components/shared/TrustBadges';
+import { ProductGrid } from '@/components/products/ProductGrid';
 
 interface Product {
   id: string;
