@@ -126,7 +126,7 @@ export default function SignupPage() {
                   />
                 </div>
 
-                <div>
+                <div className='relative'>
                   <label className="text-sm font-medium text-[#2A5C8F]">
                     Password
                   </label>
@@ -148,7 +148,7 @@ export default function SignupPage() {
                 </div>
                 <div
                     onClick={toggleVisibility}
-                    className="absolute right-20 top-[393] flex items-center cursor-pointer lg:right-[600]"
+                    className="absolute inset-y-0 right-4 top-6 flex items-center cursor-pointer"
                 >
                     {hiddenPassword ? <EyeOff size={20}/> : <Eye size={20}/> }
                 </div>
