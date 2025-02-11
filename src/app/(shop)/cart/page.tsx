@@ -101,7 +101,7 @@ export default function PurchasesPage() {
               {myProducts.map((item) => (
                 <div 
                   key={item.product.id}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-4 lg:p-6"
+                  className="bg-white rounded-xl shadow-xl hover:shadow-2xl transition-shadow p-4 lg:p-6"
                 >
                   <div className="flex gap-4 lg:gap-6">
                     {/* Image */}
@@ -168,6 +168,7 @@ export default function PurchasesPage() {
             </div>
             <Button 
               className="bg-gradient-to-r from-[#FFD700] to-[#FFB700] hover:from-[#FFB700] hover:to-[#FF9500] text-[#2A5C8F] font-bold lg:px-8 lg:py-5 lg:text-base"
+              onClick={handleDownload}
             >
               Download All as ZIP
             </Button>
