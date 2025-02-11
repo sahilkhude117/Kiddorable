@@ -16,10 +16,14 @@ import {
 } from '@/components/ui/navigation-menu';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
+import React from 'react';
+import { useUser } from '@/contexts/userContext';
+import Image from 'next/image';
+
 
 interface UserInfo {
   purchases: {
@@ -33,11 +37,8 @@ export function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const { data: userInfo, error, isLoading } = useSWR<UserInfo>(
-    status === 'authenticated' ? `${process.env.NEXT_PUBLIC_API_URL}/api/user` : null,
-    fetcher
-  );
+  const { userInfo, loading } = useUser();
+  const pathname = usePathname();
 
   return (
     <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#2A5C8F]/10">
@@ -61,21 +62,31 @@ export function Navbar() {
               <div className="mt-6 space-y-4">
                 <Link
                   href="/"
-                  className="block px-4 py-3 text-lg font-semibold text-[#2A5C8F] hover:bg-[#FFD700]/10 rounded-lg transition-colors"
+                  className={cn(
+                    "block px-4 py-3 text-lg font-semibold text-[#2A5C8F] rounded-lg transition-colors",
+                    pathname === "/" && "bg-[#FFD700]/10 hover:bg-[#FFD700]/20"
+                  )}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Home
                 </Link>
                 <Link
                   href="/products"
-                  onClick={()=> setIsMenuOpen(false)}
-                  className="block px-4 py-3 text-lg font-semibold text-[#2A5C8F] hover:bg-[#FFD700]/10 rounded-lg transition-colors"
+                  className={cn(
+                    "block px-4 py-3 text-lg font-semibold text-[#2A5C8F] rounded-lg transition-colors",
+                    pathname === "/products" && "bg-[#FFD700]/10 hover:bg-[#FFD700]/20"
+                  )}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Products
                 </Link>
                 <Link
                   href="/about"
-                  onClick={()=> setIsMenuOpen(false)}
-                  className="block px-4 py-3 text-lg font-semibold text-[#2A5C8F] hover:bg-[#FFD700]/10 rounded-lg transition-colors"
+                  className={cn(
+                    "block px-4 py-3 text-lg font-semibold text-[#2A5C8F] rounded-lg transition-colors",
+                    pathname === "/about" && "bg-[#FFD700]/10 hover:bg-[#FFD700]/20"
+                  )}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   About Us
                 </Link>
@@ -95,17 +106,29 @@ export function Navbar() {
               </div>
             </SheetContent>
           </Sheet>
-          <Link href="/" className=''>
-            <div className="text-xl font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FFD700] bg-clip-text text-transparent">
-              Kiddorable
-            </div>
+          <Link href="/" className='flex justify-center'>
+          <Image
+            src={'/app/favicon.ico'}
+            alt='sdk'
+            width={50}
+            height={50}
+          />
+          <div className="text-base mt-3 font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FFD700] bg-clip-text text-transparent">
+            FunLearningHub
+          </div>
           </Link>
         </div>
 
         {/* Desktop Logo */}
         <Link href="/" className="hidden md:flex items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FFD700] bg-clip-text text-transparent">
-            Kiddorable
+          <Image
+            src={'/app/favicon.ico'}
+            alt='sdk'
+            width={50}
+            height={50}
+          />
+          <div className="text-xl font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FFD700] bg-clip-text text-transparent">
+            FunLearningHub
           </div>
         </Link>
 
@@ -114,17 +137,32 @@ export function Navbar() {
           <NavigationMenuList className="gap-6">
             <NavigationMenuItem>
               <Link href="/" legacyBehavior passHref>
-                <NavigationMenuLink className={navLinkStyle}>Home</NavigationMenuLink>
+              <NavigationMenuLink
+                  className={cn(
+                    navLinkStyle,
+                    pathname === "/" && "bg-[#FFD700]/20 text-[#FF6B6B]"
+                  )}
+                >Home</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/products" legacyBehavior passHref>
-                <NavigationMenuLink className={navLinkStyle}>Products</NavigationMenuLink>
+              <NavigationMenuLink
+                  className={cn(
+                    navLinkStyle,
+                    pathname?.startsWith("/products") && "bg-[#FFD700]/20 text-[#FF6B6B]"
+                  )}
+                >Products</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/about" legacyBehavior passHref>
-                <NavigationMenuLink className={navLinkStyle}>About Us</NavigationMenuLink>
+              <NavigationMenuLink
+                  className={cn(
+                    navLinkStyle,
+                    pathname === "/about" && "bg-[#FFD700]/20 text-[#FF6B6B]"
+                  )}
+                >About Us</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -195,3 +233,5 @@ const navLinkStyle = cn(
   'hover:bg-[#FFD700]/10',
   'data-[active]:bg-[#FFD700]/20 data-[active]:text-[#FF6B6B]'
 );
+
+export default React.memo(Navbar);
