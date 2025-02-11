@@ -23,7 +23,7 @@ export function HowItWorks() {
           How It Works
         </h2>
         
-        <div className="space-y-8 md:flex md:justify-between md:space-y-0">
+        <div className="space-y-8 ">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-[#FFD700] rounded-full flex items-center justify-center text-2xl mb-4">
