@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./providers";
-import { Navbar } from "../components/navigation/Navbar";
+import { UserProvider } from "@/contexts/userContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'Kiddorable',
+  title: 'Fun Learning Hub',
   description: 'Your kids fashion destination',
   icons: {
     icon: 'app/favicon.ico',
@@ -33,7 +33,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
+          <UserProvider>
+            {children}
+          </UserProvider>
         </AuthProvider>
       </body>
     </html>
