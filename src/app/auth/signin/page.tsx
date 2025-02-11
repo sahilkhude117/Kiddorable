@@ -130,6 +130,7 @@ export default function SignupPage() {
                   <label className="text-sm font-medium text-[#2A5C8F]">
                     Password
                   </label>
+                  <div>
                   <Input
                     id='password'
                     name='password'
@@ -147,9 +148,10 @@ export default function SignupPage() {
                 </div>
                 <div
                     onClick={toggleVisibility}
-                    className="absolute right-20 top-[380] flex items-center cursor-pointer lg:right-[600]"
+                    className="absolute right-20 top-[393] flex items-center cursor-pointer lg:right-[600]"
                 >
                     {hiddenPassword ? <EyeOff size={20}/> : <Eye size={20}/> }
+                </div>
                 </div>
               </div>
               {/* Error Message */}
@@ -183,7 +185,7 @@ export default function SignupPage() {
               </Button>
             </form>
 
-            <div className="relative my-8">
+            {/* <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#2A5C8F]/20"></div>
               </div>
@@ -209,7 +211,7 @@ export default function SignupPage() {
                 <Apple className="w-5 h-5 mr-2" />
                 Apple
               </Button>
-            </div>
+            </div> */}
           </Card>
 
           <p className="mt-8 text-center text-[#6B7280]">
