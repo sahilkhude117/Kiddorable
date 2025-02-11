@@ -26,7 +26,7 @@ export const ProductCard = ({
   return (
     <div onClick={() => {
       router.push(`/products/${slug}`)
-    }} className="rounded-lg shadow-md p-4 lg:p-10 pb-8 transition-shadow hover:shadow-lg cursor-pointer">
+    }} className="rounded-lg shadow-md p-4 lg:p-10 pb-8 transition-shadow hover:shadow-lg cursor-pointer max-w-4xl mx-auto">
       {/* Card Content */}
       <div className="flex items-start">
         {/* Thumbnail */}
