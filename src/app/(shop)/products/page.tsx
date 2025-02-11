@@ -15,7 +15,7 @@ interface Product {
 export default async function ProductsPage() {
   // Fetch all products with ISR
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/all`, {
-    next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
+    next: { revalidate: 60 * 60 * 24 }, // Revalidate every 10 minutes
   });
   const {allProducts} = await response.json();
 

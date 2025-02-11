@@ -43,7 +43,7 @@ export default function AboutPage() {
       </div>
 
       {/* Team Section */}
-      <div id='us' className="px-4 py-16">
+      {/* <div id='us' className="px-4 py-16">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-[#2A5C8F] mb-12 text-center">
             Meet the Minds
@@ -74,7 +74,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* CTA Section */}
       <CTASection/>

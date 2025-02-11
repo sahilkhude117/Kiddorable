@@ -29,13 +29,13 @@ export default async function Home() {
   try {
     // Fetch recent testimonials with ISR
     const testimonialsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/testimonials`, {
-      next: { revalidate: 60 * 30 }, // Revalidate every 30 minutes
+      next: { revalidate: 60 * 60 * 24 }, // Revalidate every 30 minutes
     });
     const {testimonials} = await testimonialsResponse.json();
 
           // Fetch total users with ISR
     const totalUsersResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats/total-users`, {
-      next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
+      next: { revalidate: 60 * 60 * 24 }, // Revalidate every 10 minutes
     });
     const {totalUsers} = await totalUsersResponse.json();
 

@@ -34,7 +34,7 @@ export default async function ProductPage({
 
     // Fetch product details with ISR
     const productResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${productSlug}`, {
-      next: { revalidate: 60 * 10 }, // Revalidate every 10 minutes
+      next: { revalidate: 60 * 60 * 24 }, // Revalidate every 10 minutes
     });
 
     const { product } = await productResponse.json();
