@@ -113,7 +113,7 @@ export function Navbar() {
             width={50}
             height={50}
           />
-          <div className="text-base mt-3 font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FFD700] bg-clip-text text-transparent">
+          <div className="text-base mt-3 font-bold bg-black bg-clip-text text-transparent">
             FunLearningHub
           </div>
           </Link>
@@ -127,7 +127,7 @@ export function Navbar() {
             width={50}
             height={50}
           />
-          <div className="text-xl font-bold bg-gradient-to-r from-[#FF6B6B] to-[#FFD700] bg-clip-text text-transparent">
+          <div className="text-xl font-bold bg-black bg-clip-text text-transparent">
             FunLearningHub
           </div>
         </Link>
