@@ -31,7 +31,7 @@ export const ProductCard = ({
         {/* Image Section */}
         <div className="relative">
           <img
-            src={'/images/test.jpg'}
+            src={thumbnailImage}
             alt={title}
             className="object-cover w-full h-full rounded-t-xl transition-transform duration-300 group-hover:scale-105"
           />
