@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { PulseLoader } from 'react-spinners';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { it } from 'node:test';
 
 interface Product {
   id: string;
@@ -149,7 +150,7 @@ export default function PurchasesPage() {
                       <div className="flex gap-3 mt-4 lg:mt-6">
                         <Button
                           onClick={() => {
-                            router.push(item.product.driveLink || '')
+                            handleDownload(item.product.driveLink || '')
                           }}
                           disabled={loading}
                           className="bg-[#34C759] hover:bg-[#2EB34D] text-white flex-1 lg:py-5 lg:text-base"

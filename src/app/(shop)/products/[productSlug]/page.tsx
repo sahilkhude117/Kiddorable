@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Metadata } from 'next';
 import products from 'razorpay/dist/types/products';
+import { HowItWorks } from '@/components/home/HowItWorks';
 
 interface Product {
   id: string;
@@ -73,15 +74,15 @@ export default async function ProductPage({
             {/* Title and Metadata */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-[#2A5C8F] lg:text-3xl">{product.title}</h1>
+                <h1 className="text-xl font-bold text-[#2A5C8F] lg:text-3xl">{product.title}</h1>
                 <div className="flex items-center gap-3 mt-2 flex-wrap">
                   <div className="flex items-center gap-1 text-[#FFD700]">
                     <Star className="w-4 h-4 fill-current" />
-                    <span className="text-sm font-medium">{product.rating}</span>
+                    <span className="text-base font-medium">{product.rating}</span>
                   </div>
                   <div className="flex items-center gap-1 text-gray-500">
                     <Download className="w-4 h-4" />
-                    <span className="text-sm font-medium">{product.downloadCount}+ Downloads</span>
+                    <span className="text-base font-medium">{product.downloadCount}+ Downloads</span>
                   </div>
                 </div>
               </div>
@@ -114,6 +115,8 @@ export default async function ProductPage({
               </ScrollArea>
             </div>
 
+            <HowItWorks/>
+
             {/* Frequently Bought Together */}
             <div className="mt-12">
               <h2 className="text-xl font-bold text-[#2A5C8F] mb-6 lg:text-2xl">Frequently Bought Together</h2>
@@ -123,6 +126,8 @@ export default async function ProductPage({
             </div>
           </div>
         </div>
+
+        
 
         {/* Sticky Buy Footer */}
         <div className="fixed bottom-0 left-0 right-0 bg-white shadow-md p-4 z-20">
