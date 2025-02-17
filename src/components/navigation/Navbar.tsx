@@ -203,13 +203,15 @@ export function Navbar() {
           ) : (
             <>
               {/* Get Started Button */}
-              {/* <Button
+              <div className='hidden md:flex'>
+              <Button
                 variant="outline"
                 className="text-[#2A5C8F] hover:bg-[#FFD700]/20 border-[#FFD700] h-8 px-2 rounded-full"
                 onClick={() => router.push('/auth/signin')}
               >
                 Get Started
-              </Button> */}
+              </Button>
+              </div>
 
               {/* Login Button */}
               <Button
