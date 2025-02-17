@@ -25,7 +25,7 @@ export const ProductList = ({ products }: ProductListProps) => {
           <ProductCard
             key={product.id}
             title={product.title}
-            thumbnail={'/images/test.jpg'}
+            thumbnail={product.thumbnailImage}
             description={product.description}
             slug={product.slug}
             originalPrice={product.originalPrice}
