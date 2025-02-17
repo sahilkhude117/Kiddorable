@@ -26,6 +26,7 @@ interface Props {
   originalPrice: number;
   discountPercentage: number;
   productId: string;
+  driveLink:string;
 }
 
 interface UserInfo {
@@ -53,6 +54,7 @@ interface RazorpayResponse {
 export const PurchaseCard = ({
   price,
   originalPrice,
+  driveLink,
   discountPercentage,
   productId,
 }: Props) => {
@@ -127,7 +129,7 @@ export const PurchaseCard = ({
   
   try {
     const link = document.createElement('a');
-    link.href = `${process.env.NEXT_PUBLIC_API_URL}/files/test.pdf`;
+    link.href = driveLink;
     link.setAttribute('download', `test.pdf`);
     document.body.appendChild(link);
     link.click();
