@@ -67,22 +67,32 @@ export default function PurchasesPage() {
     );
   }
 
-  const handleDownload = () => {
+  const handleDownload = (driveLink: string) => {
     setLoading(true);
-    
+  
     try {
+      // Create a temporary anchor element
       const link = document.createElement('a');
-      link.href = `${process.env.NEXT_PUBLIC_API_URL}/files/test.pdf`;
-      link.setAttribute('download', `test.pdf`);
+      link.href = driveLink;
+  
+      // Set the 'download' attribute to specify the filename
+      link.setAttribute('download', 'activity-pack.pdf'); // Change the filename as needed
+  
+      // Append the anchor to the body (required for Firefox)
       document.body.appendChild(link);
+  
+      // Programmatically click the link to trigger the download
       link.click();
+  
+      // Clean up by removing the anchor from the DOM
       link.remove();
-    } catch(e) {
-      alert('error occured downloading file')
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      alert('An error occurred while downloading the file. Please try again.');
     } finally {
       setLoading(false);
     }
-   }
+  };
 
   return (
     <div className="pb-24">
@@ -113,9 +123,9 @@ export default function PurchasesPage() {
                     {/* Image */}
                     <div className="w-1/3 lg:w-1/4 relative">
                       <img
-                        src={'/images/test.jpg'}
+                        src={item.product.thumbnailImage}
                         alt={item.product.title}
-                        className="aspect-square rounded-lg object-cover lg:rounded-xl"
+                        className="w-40 h-24 rounded-lg mr-4"
                       />
                     </div>
 
@@ -138,7 +148,9 @@ export default function PurchasesPage() {
                       </div>
                       <div className="flex gap-3 mt-4 lg:mt-6">
                         <Button
-                          onClick={handleDownload}
+                          onClick={() => {
+                            router.push(item.product.driveLink || '')
+                          }}
                           disabled={loading}
                           className="bg-[#34C759] hover:bg-[#2EB34D] text-white flex-1 lg:py-5 lg:text-base"
                           size="sm"
@@ -151,7 +163,7 @@ export default function PurchasesPage() {
                           variant="outline"
                           className="border-[#2A5C8F] text-[#2A5C8F] lg:py-5 lg:text-base"
                           size="sm"
-                          onClick={() => router.push('https://drive.google.com/drive/folders/1d_QHhuuw0KNVuFHl9vVeGSY0XdEzhFLP')}
+                          onClick={() => router.push(item.product.driveLink || '')}
                         >
                           View Online
                         </Button>
@@ -164,23 +176,6 @@ export default function PurchasesPage() {
           </div>
         </section>
       </div>
-
-      {/* Sticky Download All */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#2A5C8F]/10 py-4">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4 lg:gap-6">
-            <div className="text-[#2A5C8F] lg:text-lg">
-              <span className="font-semibold">{myProducts.length} items</span> in your library
-            </div>
-            <Button 
-              className="bg-gradient-to-r from-[#FFD700] to-[#FFB700] hover:from-[#FFB700] hover:to-[#FF9500] text-[#2A5C8F] font-bold lg:px-8 lg:py-5 lg:text-base"
-              onClick={handleDownload}
-            >
-              Download All as ZIP
-            </Button>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </div> 
   );
 }

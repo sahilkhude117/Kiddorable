@@ -16,6 +16,7 @@ interface Product {
   slug: string;
   description: string;
   thumbnailImage: string;
+  driveLink:string;
   previewPages: string[];
   originalPrice: number;
   discountedPrice: number;
@@ -61,7 +62,7 @@ export default async function ProductPage({
             </Link>
             
             <img
-              src={'/images/test.jpg'}
+              src={product.thumbnailImage}
               alt={product.title}
               className="w-full lg:w-[60vw] h-auto object-cover aspect-video"
             />
@@ -89,7 +90,10 @@ export default async function ProductPage({
             {/* Description */}
             <div className="mt-6">
               <h2 className="text-lg font-semibold text-[#2A5C8F] mb-3 lg:text-xl">What's Inside</h2>
-              <p className="text-gray-600 leading-relaxed lg:text-lg">{product.description}</p>
+              <div 
+                className="text-gray-600 leading-relaxed lg:text-lg" 
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
             </div>
 
             {/* Preview Section */}
@@ -100,9 +104,9 @@ export default async function ProductPage({
                   {product.previewPages.map((img: string, index: number) => (
                     <img
                       key={index}
-                      src={'/images/test.jpg'}
+                      src={img}
                       alt={`Preview ${index + 1}`}
-                      className="rounded-lg border border-[#2A5C8F]/20 aspect-square object-cover w-48 lg:w-56"
+                      className="rounded-lg border border-[#2A5C8F]/20 h-60 object-cover w-50 lg:w-56"
                     />
                   ))}
                 </div>
@@ -126,6 +130,7 @@ export default async function ProductPage({
             <PurchaseCard
               price={product.discountedPrice}
               originalPrice={product.originalPrice}
+              driveLink={product.driveLink}
               discountPercentage={discountPercentage}
               productId={product.id}
             />
