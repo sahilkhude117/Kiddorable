@@ -37,7 +37,7 @@ export const ProductCard = ({
         <img
           src={thumbnail}
           alt={title}
-          className="w-24 h-24 rounded-lg object-cover mr-4"
+          className="w-30 h-24 rounded-lg object-cover mr-4"
         />
         </div>
         
