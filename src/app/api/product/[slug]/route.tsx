@@ -19,6 +19,7 @@ export const GET = async (
         description: true,
         thumbnailImage: true,
         previewPages: true,
+        driveLink:true,
         originalPrice: true,
         discountedPrice: true,
         rating: true,
